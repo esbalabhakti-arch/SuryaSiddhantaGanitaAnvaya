@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Surya Siddhānta Podcasts</title>
+
+  <style>
+    :root{
+      --bg1:#070914;
+      --bg2:#0b1020;
+
+      --card: rgba(255,255,255,0.07);
+      --border: rgba(255,255,255,0.14);
+
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.70);
+
+      --shadow: 0 18px 60px rgba(0,0,0,0.48);
+      --radius: 18px;
+
+      --ctaBg: rgba(255,255,255,0.06);
+      --ctaBorder: rgba(255,255,255,0.18);
+      --ctaGlow1: rgba(255, 213, 79, 0.18);
+      --ctaGlow2: rgba(168, 85, 247, 0.18);
+      --ctaGlow3: rgba(155,231,255,0.14);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--text);
+      background:
+        radial-gradient(1100px 700px at 20% 10%, rgba(155,231,255,0.18), transparent 58%),
+        radial-gradient(900px 600px at 80% 90%, rgba(140,120,255,0.10), transparent 58%),
+        linear-gradient(180deg, var(--bg1), var(--bg2) 45%, var(--bg1));
+      min-height:100vh;
+    }
+
+    .wrap{
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 18px 16px 50px;
+    }
+
+    .banner{
+      display:flex;
+      justify-content:center;
+      margin-bottom: 10px;
+    }
+
+    .bannerFrame{
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background: rgba(255,255,255,0.03);
+      padding: 4px 0;
+    }
+
+    .bannerFrame img{
+      width: 100%;
+      max-height: 260px;
+      height: auto;
+      object-fit: contain;
+      object-position: center center;
+      display:block;
+    }
+
+    .controlsWrap{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      margin: 10px 0 14px;
+    }
+
+    .controlsRow{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:12px;
+      width:100%;
+    }
+
+    .field{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+      backdrop-filter: blur(12px);
+    }
+
+    .field label{
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    select{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 14px;
+      min-width: 360px;
+    }
+
+    select option{ background:#0b1020; }
+
+    .linksRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:stretch;
+      width:100%;
+      max-width: 980px;
+      margin: 2px auto 0;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .ctaCard{
+      position: relative;
+      flex: 1 1 320px;
+      min-height: 64px;
+      border-radius: 18px;
+      padding: 12px 14px;
+      background: var(--ctaBg);
+      border: 1px solid var(--ctaBorder);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.38);
+      backdrop-filter: blur(12px);
+      cursor:pointer;
+      text-decoration:none;
+      color: rgba(255,255,255,0.92);
+      overflow:hidden;
+      user-select:none;
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .ctaCard::before{
+      content:"";
+      position:absolute;
+      inset:-60px;
+      background:
+        radial-gradient(520px 220px at 20% 40%, var(--ctaGlow1), transparent 60%),
+        radial-gradient(520px 220px at 80% 60%, var(--ctaGlow2), transparent 60%),
+        radial-gradient(520px 220px at 50% 0%,  var(--ctaGlow3), transparent 60%);
+      filter: blur(10px);
+      opacity: 0.65;
+      pointer-events:none;
+    }
+
+    .ctaCard::after{
+      content:"";
+      position:absolute;
+      top:-40%;
+      left:-60%;
+      width: 55%;
+      height: 180%;
+      transform: rotate(18deg);
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255,255,255,0.10) 35%,
+        rgba(255,255,255,0.26) 50%,
+        rgba(255,255,255,0.10) 65%,
+        transparent 100%
+      );
+      opacity: 0.45;
+      animation: shineSweep 2.8s linear infinite;
+      pointer-events:none;
+    }
+
+    @keyframes shineSweep {
+      0%   { left: -70%; }
+      100% { left: 120%; }
+    }
+
+    .ctaInner{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+
+    .ctaText{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width: 0;
+    }
+
+    .ctaTitle{
+      font-size: 14.5px;
+      font-weight: 750;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ctaHint{
+      font-size: 12px;
+      color: rgba(255,255,255,0.70);
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ctaBadge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.22);
+      border: 1px solid rgba(255,255,255,0.14);
+      font-size: 12px;
+      color: rgba(255,255,255,0.82);
+      flex: 0 0 auto;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    .ctaCard:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.30);
+      background: rgba(255,255,255,0.075);
+      box-shadow: 0 18px 44px rgba(0,0,0,0.46);
+    }
+
+    .ctaCard:active{
+      transform: translateY(0px) scale(0.995);
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      margin-bottom: 16px;
+    }
+
+    video{
+      width:100%;
+      height:56px;
+      border-radius:14px;
+    }
+
+    .docHeader h3{
+      margin:0 0 10px;
+      font-size: 16px;
+    }
+
+    .docBody{
+      background: rgba(0,0,0,0.22);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 14px;
+      max-height: 55vh;
+      overflow:auto;
+    }
+
+    .docBody p{
+      margin:0 0 10px;
+      line-height:1.6;
+    }
+
+    .footer{
+      margin-top: 28px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      text-align:center;
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .modalBackdrop{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,0.62);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 9999;
+    }
+
+    .modal{
+      width:min(1100px, 96vw);
+      max-height: 86vh;
+      background: rgba(10,14,28,0.92);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 18px;
+      box-shadow: 0 30px 90px rgba(0,0,0,0.65);
+      backdrop-filter: blur(14px);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .modalHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .modalHeader h3{
+      margin:0;
+      font-size: 15px;
+      font-weight: 650;
+    }
+
+    .modalHeader .modalBtns{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .iconBtn{
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.92);
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor:pointer;
+      font-size: 13px;
+    }
+
+    .iconBtn:hover{
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.28);
+    }
+
+    .modalBody{
+      padding: 12px 14px 14px;
+      overflow:auto;
+    }
+
+    .excelTableWrap table{
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 13px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .excelTableWrap td, .excelTableWrap th{
+      border: 1px solid rgba(255,255,255,0.14);
+      padding: 8px 10px;
+      vertical-align: top;
+      color: rgba(255,255,255,0.92);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .excelTableWrap th{
+      background: rgba(255,255,255,0.06);
+      font-weight: 650;
+    }
+
+    @media (max-width:640px){
+      .bannerFrame img{ max-height:160px; }
+      select{ min-width:260px; }
+      .docBody{ max-height: 62vh; }
+      .linksRow{ justify-content:center; }
+      .ctaCard{ flex: 1 1 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="banner">
+      <div class="bannerFrame">
+        <img src="Vedic_podcast_banner_2.png" alt="Surya Siddhānta Podcasts">
+      </div>
+    </div>
+
+    <div class="controlsWrap">
+
+      <div class="controlsRow">
+        <div class="field">
+          <label for="topicSelect">Topic</label>
+          <select id="topicSelect"></select>
+        </div>
+
+        <div class="field">
+          <label for="dateSelect">Podcast</label>
+          <select id="dateSelect"></select>
+        </div>
+      </div>
+
+      <div class="linksRow">
+        <a id="linkFullSummary" class="ctaCard" href="javascript:void(0)">
+          <div class="ctaInner">
+            <div class="ctaText">
+              <div class="ctaTitle">Surya Siddhānta meanings summary</div>
+              <div class="ctaHint">----------------------</div>
+            </div>
+            <div class="ctaBadge">View</div>
+          </div>
+        </a>
+
+        <a id="linkLineByLineSummary" class="ctaCard" href="javascript:void(0)">
+          <div class="ctaInner">
+            <div class="ctaText">
+              <div class="ctaTitle">Line by line meanings</div>
+              <div class="ctaHint">----------------------</div>
+            </div>
+            <div class="ctaBadge">View</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="card">
+      <video id="audioPlayer" controls playsinline preload="metadata"></video>
+      <div class="error" id="audioError" style="display:none;"></div>
+    </div>
+
+    <div class="card">
+      <div class="docHeader">
+        <h3 id="docTitle">Transcription</h3>
+      </div>
+      <div class="docBody" id="docBody">Loading…</div>
+      <div class="error" id="docError" style="display:none;"></div>
+    </div>
+
+    <div class="footer">
+      <div><strong>Acknowledgements:</strong> Shri Ram kumar Vaidyanathan, Portland, OR, USA</div>
+      <div style="margin-top:4px;">
+        <strong>Contact:</strong>
+        <a href="mailto:ramk21@gmail.com" style="color:inherit;text-decoration:underline;">
+          ramk21@gmail.com
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="excelModalBackdrop" class="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="excelModalTitle">
+      <div class="modalHeader">
+        <h3 id="excelModalTitle">Loading…</h3>
+        <div class="modalBtns">
+          <button id="excelModalOpenFile" class="iconBtn" type="button">Open Excel</button>
+          <button id="excelModalClose" class="iconBtn" type="button">Close</button>
+        </div>
+      </div>
+      <div id="excelModalBody" class="modalBody">
+        Loading…
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
