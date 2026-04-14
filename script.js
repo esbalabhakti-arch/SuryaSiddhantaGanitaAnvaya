@@ -5,7 +5,7 @@
 // Folder structure expected (case-sensitive on GitHub Pages):
 //  - Audio/<file>
 //  - Images/<transcription-file>.txt
-//  - Images/SS_meaning_summaries.xlsx
+//  - Images/SS_meanings_summaries.xlsx
 // ----------------------------------------------------
 
 const TOPIC_LIBRARY = [
@@ -43,7 +43,7 @@ const TOPIC_LIBRARY = [
 // Excel config
 // If your 2 tab names are different, change only these.
 // ----------------------------------------------------
-const SS_XLSX_PATH = "Images/SS_meaning_summaries.xlsx";
+const SS_XLSX_PATH = "Images/SS_meanings_summaries.xlsx";
 const SHEET_FULL_SUMMARY = "Full_Panchadis";
 const SHEET_LINE_BY_LINE = "Line_by_Line";
 
