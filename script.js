@@ -13,7 +13,7 @@ const TOPIC_LIBRARY = [
     topic: "Surya Siddhanta Sloka",
     episodes: [
       // Example entry:
-      // {
+      {
       id: "SS_Sloka_001",
       date: "2026-04-14",
       title: "Surya Siddhanta - Sloka 1-5",
@@ -27,7 +27,7 @@ const TOPIC_LIBRARY = [
     topic: "Surya Siddhanta Ganita",
     episodes: [
       // Example entry:
-      // {
+      {
       id: "SS_Ganita_001",
       date: "2026-04-14",
       title: "Surya Siddhanta - Ganita 1",
