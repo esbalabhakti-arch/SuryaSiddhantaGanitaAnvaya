@@ -30,7 +30,7 @@
 
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       color: var(--text);
       background:
         radial-gradient(1100px 700px at 20% 10%, rgba(155,231,255,0.18), transparent 58%),
@@ -48,25 +48,26 @@
     .banner{
       display:flex;
       justify-content:center;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
     }
 
     .bannerFrame{
       width: 100%;
-      border-radius: 16px;
+      max-width: 1220px;
+      height: 290px;
+      border-radius: 24px;
       overflow: hidden;
-      display:flex;
-      justify-content:center;
-      align-items:center;
       background: rgba(255,255,255,0.03);
-      padding: 4px 0;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.35);
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
     .bannerFrame img{
       width: 100%;
-      max-height: 260px;
-      height: auto;
-      object-fit: contain;
+      height: 100%;
+      object-fit: cover;
       object-position: center center;
       display:block;
     }
@@ -113,9 +114,13 @@
       padding: 10px 12px;
       font-size: 14px;
       min-width: 360px;
+      outline: none;
     }
 
-    select option{ background:#0b1020; }
+    select option{
+      background:#0b1020;
+      color: var(--text);
+    }
 
     .linksRow{
       display:flex;
@@ -153,7 +158,7 @@
       background:
         radial-gradient(520px 220px at 20% 40%, var(--ctaGlow1), transparent 60%),
         radial-gradient(520px 220px at 80% 60%, var(--ctaGlow2), transparent 60%),
-        radial-gradient(520px 220px at 50% 0%,  var(--ctaGlow3), transparent 60%);
+        radial-gradient(520px 220px at 50% 0%, var(--ctaGlow3), transparent 60%);
       filter: blur(10px);
       opacity: 0.65;
       pointer-events:none;
@@ -358,7 +363,8 @@
       background: rgba(255,255,255,0.03);
     }
 
-    .excelTableWrap td, .excelTableWrap th{
+    .excelTableWrap td,
+    .excelTableWrap th{
       border: 1px solid rgba(255,255,255,0.14);
       padding: 8px 10px;
       vertical-align: top;
@@ -372,12 +378,42 @@
       font-weight: 650;
     }
 
+    .error{
+      display:none;
+      margin-top:10px;
+      color:#ffb4b4;
+      white-space:pre-wrap;
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    @media (max-width:900px){
+      .bannerFrame{
+        height: 220px;
+      }
+    }
+
     @media (max-width:640px){
-      .bannerFrame img{ max-height:160px; }
-      select{ min-width:260px; }
-      .docBody{ max-height: 62vh; }
-      .linksRow{ justify-content:center; }
-      .ctaCard{ flex: 1 1 100%; }
+      .bannerFrame{
+        height: 140px;
+        border-radius: 18px;
+      }
+
+      select{
+        min-width:260px;
+      }
+
+      .docBody{
+        max-height: 62vh;
+      }
+
+      .linksRow{
+        justify-content:center;
+      }
+
+      .ctaCard{
+        flex: 1 1 100%;
+      }
     }
   </style>
 </head>
@@ -387,12 +423,11 @@
 
     <div class="banner">
       <div class="bannerFrame">
-        <img src="Vedic_podcast_banner_2.png" alt="Surya Siddhānta Podcasts">
+        <img src="Vedic_podcast_banner_2.png" alt="Surya Siddhānta Podcasts Banner">
       </div>
     </div>
 
     <div class="controlsWrap">
-
       <div class="controlsRow">
         <div class="field">
           <label for="topicSelect">Topic</label>
@@ -430,7 +465,7 @@
 
     <div class="card">
       <video id="audioPlayer" controls playsinline preload="metadata"></video>
-      <div class="error" id="audioError" style="display:none;"></div>
+      <div class="error" id="audioError"></div>
     </div>
 
     <div class="card">
@@ -438,15 +473,15 @@
         <h3 id="docTitle">Transcription</h3>
       </div>
       <div class="docBody" id="docBody">Loading…</div>
-      <div class="error" id="docError" style="display:none;"></div>
+      <div class="error" id="docError"></div>
     </div>
 
     <div class="footer">
-      <div><strong>Acknowledgements:</strong> Shri Ram kumar Vaidyanathan, Portland, OR, USA</div>
+      <div><strong>Iti ||</strong> P.T.S, Portland, OR, USA</div>
       <div style="margin-top:4px;">
         <strong>Contact:</strong>
-        <a href="mailto:ramk21@gmail.com" style="color:inherit;text-decoration:underline;">
-          ramk21@gmail.com
+        <a href="mailto:esbalabhakti@gmail.com" style="color:inherit;text-decoration:underline;">
+          esbalabhakti@gmail.com
         </a>
       </div>
     </div>
