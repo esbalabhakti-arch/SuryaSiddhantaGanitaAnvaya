@@ -9,7 +9,7 @@ const TOPIC_LIBRARY = [
         date: "2026-04-14",
         title: "Surya Siddhanta - Sloka 1-5",
         audio: "Audio/101_SS_sloka_1_to_5.opus",
-        transcriptionTxt: "Images/106_3rd_Panchadi_Part1_transcription.txt",
+        transcriptionTxt: "Images/101_SS_Verses_1_to_5.txt",
         note: "Opening sloka discussion"
       }
     ]
