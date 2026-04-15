@@ -225,12 +225,14 @@ function openExcelModal(titleText, bodyHtml) {
 
   excelModalBackdrop.style.display = "flex";
   excelModalBackdrop.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
 }
 
 function closeExcelModal() {
   if (!excelModalBackdrop) return;
   excelModalBackdrop.style.display = "none";
   excelModalBackdrop.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
 }
 
 async function loadWorkbookOnce() {
