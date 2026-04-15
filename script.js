@@ -1,55 +1,38 @@
 // script.js
 
-// ----------------------------------------------------
-// CONFIG: Add your Surya Siddhanta podcast entries here
-// Folder structure expected (case-sensitive on GitHub Pages):
-//  - Audio/<file>
-//  - Images/<transcription-file>.txt
-//  - Images/SS_meanings_summaries.xlsx
-// ----------------------------------------------------
-
 const TOPIC_LIBRARY = [
   {
     topic: "Surya Siddhanta Sloka",
     episodes: [
-      // Example entry:
       {
-      id: "SS_Sloka_001",
-      date: "2026-04-14",
-      title: "Surya Siddhanta - Sloka 1-5",
-      audio: "Audio/101_SS_sloka_1_to_5.opus",
-      transcriptionTxt: "Images/106_3rd_Panchadi_Part1_transcription.txt",
-      note: "Opening sloka discussion"
+        id: "SS_Sloka_001",
+        date: "2026-04-14",
+        title: "Surya Siddhanta - Sloka 1-5",
+        audio: "Audio/101_SS_sloka_1_to_5.opus",
+        transcriptionTxt: "Images/106_3rd_Panchadi_Part1_transcription.txt",
+        note: "Opening sloka discussion"
       }
     ]
   },
   {
     topic: "Surya Siddhanta Ganita",
     episodes: [
-      // Example entry:
       {
-      id: "SS_Ganita_001",
-      date: "2026-04-14",
-      title: "Surya Siddhanta - Ganita 1",
-      audio: "Audio/101_SS_sloka_1_to_5.opus",
-      transcriptionTxt: "Images/106_3rd_Panchadi_Part1_transcription.txt",
-      note: "Ganita section discussion"
+        id: "SS_Ganita_001",
+        date: "2026-04-14",
+        title: "Surya Siddhanta - Ganita 1",
+        audio: "Audio/101_SS_sloka_1_to_5.opus",
+        transcriptionTxt: "Images/106_3rd_Panchadi_Part1_transcription.txt",
+        note: "Ganita section discussion"
       }
     ]
   }
 ];
 
-// ----------------------------------------------------
-// Excel config
-// If your 2 tab names are different, change only these.
-// ----------------------------------------------------
 const SS_XLSX_PATH = "Images/SS_meanings_summaries.xlsx";
 const SHEET_FULL_SUMMARY = "Full_Panchadis";
 const SHEET_LINE_BY_LINE = "Line_by_Line";
 
-// ----------------------------------------------------
-// UI elements
-// ----------------------------------------------------
 const $ = (id) => document.getElementById(id);
 
 const topicSelect = $("topicSelect");
@@ -71,18 +54,12 @@ const excelModalBody = $("excelModalBody");
 const excelModalClose = $("excelModalClose");
 const excelModalOpenFile = $("excelModalOpenFile");
 
-// ----------------------------------------------------
-// State
-// ----------------------------------------------------
 let currentTopic = TOPIC_LIBRARY[0]?.topic || "";
 let currentEpisode = null;
 
 let _workbook = null;
 let _workbookPromise = null;
 
-// ----------------------------------------------------
-// Helpers
-// ----------------------------------------------------
 function showError(el, msg) {
   if (!el) return;
   el.style.display = "block";
@@ -153,19 +130,17 @@ async function fetchTxtAsHtml(txtPath) {
 
 async function loadTxtToHtml(txtPath) {
   clearError(docError);
-  if (docBody) docBody.innerHTML = "Loading…";
+  if (docBody) docBody.innerHTML = "Loading...";
 
   try {
     const html = await fetchTxtAsHtml(txtPath);
     docBody.innerHTML = html;
   } catch (err) {
+    if (docBody) docBody.innerHTML = "";
     showError(docError, String(err));
   }
 }
 
-// ----------------------------------------------------
-// Episode loading
-// ----------------------------------------------------
 async function loadEpisode(ep) {
   if (!ep) return;
 
@@ -187,9 +162,6 @@ async function loadEpisode(ep) {
   await loadTxtToHtml(ep.transcriptionTxt);
 }
 
-// ----------------------------------------------------
-// UI population
-// ----------------------------------------------------
 function populateTopicSelect() {
   if (!topicSelect) return;
   topicSelect.innerHTML = "";
@@ -226,6 +198,7 @@ function populatePodcastSelect(topicObj) {
     if (docBody) {
       docBody.innerHTML = "<p>No podcasts added yet for this topic.</p>";
     }
+
     resetPlayer();
     if (audioPlayer) {
       audioPlayer.removeAttribute("src");
@@ -244,9 +217,6 @@ function populatePodcastSelect(topicObj) {
   podcastSelect.value = eps[0].id;
 }
 
-// ----------------------------------------------------
-// Excel modal helpers
-// ----------------------------------------------------
 function openExcelModal(titleText, bodyHtml) {
   if (!excelModalBackdrop || !excelModalTitle || !excelModalBody) return;
 
@@ -255,7 +225,6 @@ function openExcelModal(titleText, bodyHtml) {
 
   excelModalBackdrop.style.display = "flex";
   excelModalBackdrop.setAttribute("aria-hidden", "false");
-  (excelModalClose || excelModalOpenFile || excelModalBackdrop).focus?.();
 }
 
 function closeExcelModal() {
@@ -296,17 +265,71 @@ function renderSheetToHtmlTable(wb, sheetName) {
     throw new Error(`Sheet not found: "${sheetName}"\n\nAvailable sheets: ${available}`);
   }
 
-  const tableHtml = XLSX.utils.sheet_to_html(ws, {
-    id: "excelTable",
-    editable: false
+  const rows = XLSX.utils.sheet_to_json(ws, {
+    header: 1,
+    defval: ""
   });
 
-  return `<div class="excelTableWrap">${tableHtml}</div>`;
+  if (!rows.length) {
+    return `<div class="excelTableWrap"><p>No data found in sheet.</p></div>`;
+  }
+
+  let maxUsedCols = 0;
+  for (const row of rows) {
+    let lastNonEmpty = 0;
+    for (let i = row.length - 1; i >= 0; i--) {
+      if (String(row[i]).trim() !== "") {
+        lastNonEmpty = i + 1;
+        break;
+      }
+    }
+    if (lastNonEmpty > maxUsedCols) {
+      maxUsedCols = lastNonEmpty;
+    }
+  }
+
+  const trimmedRows = rows.map(row => row.slice(0, maxUsedCols));
+
+  while (
+    trimmedRows.length &&
+    trimmedRows[trimmedRows.length - 1].every(cell => String(cell).trim() === "")
+  ) {
+    trimmedRows.pop();
+  }
+
+  const finalRows = trimmedRows.map(row => row.slice(0, 4));
+
+  let html = `<div class="excelTableWrap"><table>`;
+
+  for (let r = 0; r < finalRows.length; r++) {
+    html += "<tr>";
+
+    for (let c = 0; c < finalRows[r].length; c++) {
+      const cell = String(finalRows[r][c] ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;")
+        .replace(/\n/g, "<br>");
+
+      if (r === 0) {
+        html += `<th>${cell}</th>`;
+      } else {
+        html += `<td>${cell}</td>`;
+      }
+    }
+
+    html += "</tr>";
+  }
+
+  html += `</table></div>`;
+  return html;
 }
 
 async function showWorkbookSheet(sheetName, titleLabel) {
   try {
-    openExcelModal(titleLabel, "Loading…");
+    openExcelModal(titleLabel, "Loading...");
     const wb = await loadWorkbookOnce();
     const html = renderSheetToHtmlTable(wb, sheetName);
 
@@ -325,9 +348,6 @@ async function showWorkbookSheet(sheetName, titleLabel) {
   }
 }
 
-// ----------------------------------------------------
-// Event handlers
-// ----------------------------------------------------
 topicSelect?.addEventListener("change", async () => {
   currentTopic = topicSelect.value;
   const topicObj = findTopicObj(currentTopic);
@@ -367,9 +387,6 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// ----------------------------------------------------
-// Initial load
-// ----------------------------------------------------
 (function init() {
   populateTopicSelect();
 
