@@ -14,6 +14,19 @@ const TOPIC_LIBRARY = [
       }
     ]
   },
+    {
+    topic: "Surya Siddhanta Sloka",
+    episodes: [
+      {
+        id: "SS_Sloka_002",
+        date: "2026-04-17",
+        title: "Surya Siddhanta - Sloka 6-10",
+        audio: "Audio/102_SS_sloka_6_to_10.ogg",
+        transcriptionTxt: "Images/102_SS_Verses_6_to_10.txt",
+        note: "Opening sloka discussion"
+      }
+    ]
+  },
   {
     topic: "Surya Siddhanta Ganita",
     episodes: [
