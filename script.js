@@ -19,10 +19,8 @@ const TOPIC_LIBRARY = [
         audio: "Audio/102_SS_sloka_6_to_10.ogg",
         transcriptionTxt: "Images/102_SS_Verses_6_to_10.txt",
         note: "Opening sloka discussion"
-      }
-    ]
-  },
-  {
+      },
+        {
         id: "SS_Sloka_003",
         date: "2026-04-24",
         title: "Surya Siddhanta - Sloka 11-13",
